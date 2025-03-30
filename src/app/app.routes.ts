@@ -7,12 +7,12 @@ import { ListaReproduccionFormComponent } from './features/playlists/lista-repro
 import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   {
     path: '',
     component: LayoutComponent,
     children: [
       { path: '', redirectTo: 'lists', pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
       {
         path: 'lists',
         component: ListaReproduccionListComponent,
@@ -26,11 +26,6 @@ export const routes: Routes = [
       {
         path: 'lists/:name',
         component: ListaReproduccionDetailComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'lists/:name/edit',
-        component: ListaReproduccionFormComponent,
         canActivate: [AuthGuard],
       },
     ],
