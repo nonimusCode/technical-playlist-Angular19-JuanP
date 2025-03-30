@@ -1,1 +1,263 @@
-<p>lista-reproduccion-form works!</p>
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+  <div
+    class="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200"
+  >
+    <h2 class="text-lg leading-6 font-medium text-gray-900">
+      {{
+        editMode
+          ? "Editar lista de reproducción"
+          : "Crear nueva lista de reproducción"
+      }}
+    </h2>
+    <button
+      (click)="volver()"
+      class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >
+      Volver
+    </button>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="px-4 py-5 flex justify-center">
+    <p class="text-gray-500">Cargando...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div
+    *ngIf="errorMessage"
+    class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
+  >
+    {{ errorMessage }}
+  </div>
+
+  <!-- Mensaje de éxito -->
+  <div
+    *ngIf="successMessage"
+    class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg"
+  >
+    {{ successMessage }}
+  </div>
+
+  <!-- Formulario -->
+  <div *ngIf="!loading" class="p-4">
+    <form [formGroup]="listaForm" (ngSubmit)="onSubmit()">
+      <!-- Información de la lista -->
+      <div class="grid grid-cols-1 gap-6">
+        <div class="col-span-1">
+          <label for="nombre" class="block text-sm font-medium text-gray-700"
+            >Nombre</label
+          >
+          <input
+            type="text"
+            id="nombre"
+            formControlName="nombre"
+            [readonly]="editMode"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            [ngClass]="{ 'bg-gray-100': editMode }"
+          />
+          <div
+            *ngIf="
+              listaForm.get('nombre')?.invalid &&
+              listaForm.get('nombre')?.touched
+            "
+            class="text-red-500 text-sm mt-1"
+          >
+            El nombre es obligatorio
+          </div>
+        </div>
+
+        <div class="col-span-1">
+          <label
+            for="descripcion"
+            class="block text-sm font-medium text-gray-700"
+            >Descripción</label
+          >
+          <textarea
+            id="descripcion"
+            formControlName="descripcion"
+            rows="3"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          ></textarea>
+          <div
+            *ngIf="
+              listaForm.get('descripcion')?.invalid &&
+              listaForm.get('descripcion')?.touched
+            "
+            class="text-red-500 text-sm mt-1"
+          >
+            La descripción es obligatoria
+          </div>
+        </div>
+      </div>
+
+      <!-- Canciones -->
+      <div class="mt-8">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-md font-medium text-gray-900">Canciones</h3>
+          <button
+            type="button"
+            (click)="addCancion()"
+            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Añadir canción
+          </button>
+        </div>
+
+        <div formArrayName="canciones">
+          <div
+            *ngFor="let cancionForm of canciones.controls; let i = index"
+            [formGroupName]="i"
+            class="p-4 border border-gray-200 rounded-md mb-4"
+          >
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="text-sm font-medium text-gray-700">
+                Canción #{{ i + 1 }}
+              </h4>
+              <button
+                type="button"
+                (click)="removeCancion(i)"
+                class="text-red-600 hover:text-red-900"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="col-span-1">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Título</label
+                >
+                <input
+                  type="text"
+                  formControlName="titulo"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+                <div
+                  *ngIf="
+                    cancionForm.get('titulo')?.invalid &&
+                    cancionForm.get('titulo')?.touched
+                  "
+                  class="text-red-500 text-xs mt-1"
+                >
+                  El título es obligatorio
+                </div>
+              </div>
+
+              <div class="col-span-1">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Artista</label
+                >
+                <input
+                  type="text"
+                  formControlName="artista"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+                <div
+                  *ngIf="
+                    cancionForm.get('artista')?.invalid &&
+                    cancionForm.get('artista')?.touched
+                  "
+                  class="text-red-500 text-xs mt-1"
+                >
+                  El artista es obligatorio
+                </div>
+              </div>
+
+              <div class="col-span-1">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Álbum</label
+                >
+                <input
+                  type="text"
+                  formControlName="album"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+                <div
+                  *ngIf="
+                    cancionForm.get('album')?.invalid &&
+                    cancionForm.get('album')?.touched
+                  "
+                  class="text-red-500 text-xs mt-1"
+                >
+                  El álbum es obligatorio
+                </div>
+              </div>
+
+              <div class="col-span-1">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Año</label
+                >
+                <input
+                  type="text"
+                  formControlName="anno"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+                <div
+                  *ngIf="
+                    cancionForm.get('anno')?.invalid &&
+                    cancionForm.get('anno')?.touched
+                  "
+                  class="text-red-500 text-xs mt-1"
+                >
+                  El año es obligatorio
+                </div>
+              </div>
+
+              <div class="col-span-1 md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700"
+                  >Género</label
+                >
+                <input
+                  type="text"
+                  formControlName="genero"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+                <div
+                  *ngIf="
+                    cancionForm.get('genero')?.invalid &&
+                    cancionForm.get('genero')?.touched
+                  "
+                  class="text-red-500 text-xs mt-1"
+                >
+                  El género es obligatorio
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="canciones.length === 0"
+            class="text-gray-500 text-sm mb-4"
+          >
+            No hay canciones en esta lista. Haz clic en "Añadir canción" para
+            agregar una.
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 flex justify-center">
+        <button
+          type="submit"
+          [disabled]="listaForm.invalid"
+          class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          [ngClass]="{ 'opacity-50 cursor-not-allowed': listaForm.invalid }"
+        >
+          {{ editMode ? "Actualizar lista" : "Crear lista" }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

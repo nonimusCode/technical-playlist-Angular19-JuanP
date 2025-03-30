@@ -1,1 +1,76 @@
-<p>lista-reproduccion-list works!</p>
+<div class="bg-white shadow overflow-hidden sm:rounded-md">
+  <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+    <h2 class="text-lg leading-6 font-medium text-gray-900">
+      Listas de Reproducción
+    </h2>
+    <a
+      href="/lists/new"
+      class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >
+      Nueva Lista
+    </a>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="px-4 py-5 flex justify-center">
+    <p class="text-gray-500">Cargando listas de reproducción...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div
+    *ngIf="errorMessage"
+    class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
+  >
+    {{ errorMessage }}
+  </div>
+
+  <!-- Lista vacía -->
+  <div
+    *ngIf="!loading && listas.length === 0 && !errorMessage"
+    class="px-4 py-5 flex justify-center"
+  >
+    <p class="text-gray-500">No hay listas de reproducción disponibles.</p>
+  </div>
+
+  <!-- Lista de reproducción -->
+  <ul *ngIf="!loading && listas.length > 0" class="divide-y divide-gray-200">
+    <li
+      *ngFor="let lista of listas"
+      (click)="verDetalle(lista.nombre)"
+      class="cursor-pointer hover:bg-gray-50"
+    >
+      <div class="px-4 py-4 sm:px-6 flex justify-between items-center">
+        <div>
+          <h3 class="text-lg font-medium text-indigo-600">
+            {{ lista.nombre }}
+          </h3>
+          <p class="mt-1 text-sm text-gray-500">{{ lista.descripcion }}</p>
+          <p class="mt-1 text-xs text-gray-400">
+            {{ lista.canciones?.length || 0 }} canciones
+          </p>
+        </div>
+        <div class="flex space-x-3">
+          <button
+            (click)="eliminarLista(lista.nombre, $event)"
+            class="text-red-600 hover:text-red-900"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
