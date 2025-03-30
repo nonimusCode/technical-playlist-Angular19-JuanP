@@ -19,7 +19,6 @@ export class AuthService {
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    // Comprobar el token al iniciar el servicio
     this.checkToken();
   }
 
@@ -32,8 +31,8 @@ export class AuthService {
         username: 'admin',
       };
 
-      localStorage.setItem('token', mockResponse.token);
-      localStorage.setItem('username', mockResponse.username);
+      window.localStorage.setItem('token', mockResponse.token);
+      window.localStorage.setItem('username', mockResponse.username);
       this.isAuthenticatedSubject.next(true);
 
       return of(mockResponse);
@@ -46,8 +45,8 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('username', response.username);
+          window.localStorage.setItem('token', response.token);
+          window.localStorage.setItem('username', response.username);
           this.isAuthenticatedSubject.next(true);
         }),
         catchError((error) => {
@@ -58,17 +57,17 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('username');
     this.isAuthenticatedSubject.next(false);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return window.localStorage.getItem('token');
   }
 
   getUsername(): string | null {
-    return localStorage.getItem('username');
+    return window.localStorage.getItem('username');
   }
 
   private hasToken(): boolean {

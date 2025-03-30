@@ -1,8 +1,83 @@
-<div class="min-h-screen bg-gray-100">
+<div class="min-h-screen bg-spotify-base text-white">
   <app-header></app-header>
-  <main class="py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <router-outlet></router-outlet>
+  <div class="flex">
+    <div class="w-64 bg-spotify-darkgray fixed h-full pt-16 hidden md:block">
+      <div class="px-4 py-6">
+        <ul>
+          <li class="mb-4">
+            <a
+              routerLink="/"
+              class="flex items-center text-gray-300 hover:text-white transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                />
+              </svg>
+              <span class="font-medium">Inicio</span>
+            </a>
+          </li>
+          <li class="mb-4">
+            <a
+              routerLink="/lists"
+              class="flex items-center text-gray-300 hover:text-white transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+                />
+              </svg>
+              <span class="font-medium">Mis Playlists</span>
+            </a>
+          </li>
+          <li class="mb-4">
+            <a
+              routerLink="/lists/new"
+              class="flex items-center text-gray-300 hover:text-white transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              <span class="font-medium">Crear Playlist</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </main>
+
+    <main class="w-full md:pl-64 pt-16 min-h-screen">
+      <div class="px-4 sm:px-6 py-6">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
 </div>

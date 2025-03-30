@@ -1,43 +1,80 @@
-<nav class="bg-gray-800 shadow-lg">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<nav
+  class="bg-spotify-darkgray border-b border-spotify-lightgray fixed w-full z-10"
+>
+  <div class="px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
+      <!-- Logo y marca -->
       <div class="flex items-center">
-        <div class="flex-shrink-0">
-          <h1 class="text-white font-bold text-xl">Playlist App</h1>
-        </div>
-        <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-4">
-            <a
-              routerLink="/lists"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >Listas</a
-            >
-            <a
-              routerLink="/lists/new"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >Nueva Lista</a
-            >
-          </div>
+        <div class="flex-shrink-0 flex items-center">
+          <svg
+            class="w-8 h-8 text-spotify-green"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm4.51 14.3c-.2 0-.33-.07-.51-.18-2.92-1.77-6.5-1.95-10.1-.59-.34.14-.59-.17-.59-.5s.23-.47.5-.47c3.95-1.23 7.89-1.23 11.1.76.17.23.17.47-.06.7-.1.2-.3.28-.34.28zm1.21-2.7c-.25 0-.42-.1-.64-.23-3.37-2.03-8.28-2.65-12.22-1.41-.17.07-.42 0-.59-.17-.17-.17-.25-.42-.08-.64.17-.23.42-.33.69-.23 4.45-1.41 9.82-.7 13.56 1.62.17.1.33.33.33.57-.08.33-.33.49-.67.49h-.38zm1.37-2.88c-.33 0-.5-.17-.7-.33-3.86-2.33-10.31-2.53-14.27-1.4-.33.08-.58 0-.75-.17-.17-.25-.17-.58.17-.75 4.3-1.23 11.18-1.03 15.56 1.62.33.17.42.5.25.76-.17.16-.33.27-.26.27.27z"
+            />
+          </svg>
+          <h1 class="text-white font-bold text-xl ml-2 hidden sm:block">
+            Music Player
+          </h1>
         </div>
       </div>
-      <div class="block">
-        <div class="ml-4 flex items-center md:ml-6">
-          <div *ngIf="isAuthenticated; else loginButton">
-            <button
-              (click)="logout()"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Cerrar Sesión
-            </button>
-          </div>
-          <ng-template #loginButton>
-            <a
-              routerLink="/login"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >Iniciar Sesión</a
-            >
-          </ng-template>
+
+      <!-- Botones de navegación - visible en móvil -->
+      <div class="md:hidden flex space-x-4">
+        <a routerLink="/lists" class="text-gray-300 hover:text-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+            />
+          </svg>
+        </a>
+        <a routerLink="/lists/new" class="text-gray-300 hover:text-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Controles de usuario -->
+      <div class="flex items-center">
+        <div *ngIf="isAuthenticated; else loginButton">
+          <button
+            (click)="logout()"
+            class="bg-spotify-green text-black rounded-full px-4 py-2 text-sm font-medium hover:bg-opacity-80 transition-colors"
+          >
+            Cerrar Sesión
+          </button>
         </div>
+        <ng-template #loginButton>
+          <a
+            routerLink="/login"
+            class="bg-spotify-green text-black rounded-full px-4 py-2 text-sm font-medium hover:bg-opacity-80 transition-colors"
+          >
+            Iniciar Sesión
+          </a>
+        </ng-template>
       </div>
     </div>
   </div>

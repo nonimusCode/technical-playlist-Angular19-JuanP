@@ -1,58 +1,148 @@
-<div class="bg-white shadow overflow-hidden sm:rounded-md">
-  <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
-    <h2 class="text-lg leading-6 font-medium text-gray-900">
-      Listas de Reproducción
-    </h2>
-    <a
-      routerLink="/lists/new"
-      class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+<div class="bg-spotify-base text-white">
+  <div class="pb-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-white">Tus Playlists</h1>
+      <a
+        routerLink="/lists/new"
+        class="inline-flex items-center px-4 py-2 rounded-full bg-spotify-green text-black text-sm font-medium hover:bg-opacity-80 transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 mr-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+        Nueva Playlist
+      </a>
+    </div>
+
+    <!-- Estado de carga -->
+    <div *ngIf="loading" class="flex justify-center py-10">
+      <div class="animate-pulse flex space-x-4">
+        <div class="rounded-full bg-spotify-lightgray h-12 w-12"></div>
+        <div class="flex-1 space-y-4 py-1">
+          <div class="h-4 bg-spotify-lightgray rounded w-3/4"></div>
+          <div class="space-y-2">
+            <div class="h-4 bg-spotify-lightgray rounded"></div>
+            <div class="h-4 bg-spotify-lightgray rounded w-5/6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div
+      *ngIf="errorMessage"
+      class="p-4 mb-6 text-sm text-red-300 bg-red-900 bg-opacity-50 rounded-md"
     >
-      Nueva Lista
-    </a>
-  </div>
+      {{ errorMessage }}
+    </div>
 
-  <!-- Estado de carga -->
-  <div *ngIf="loading" class="px-4 py-5 flex justify-center">
-    <p class="text-gray-500">Cargando listas de reproducción...</p>
-  </div>
-
-  <!-- Mensaje de error -->
-  <div
-    *ngIf="errorMessage"
-    class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
-  >
-    {{ errorMessage }}
-  </div>
-
-  <!-- Lista vacía -->
-  <div
-    *ngIf="!loading && listas.length === 0 && !errorMessage"
-    class="px-4 py-5 flex justify-center"
-  >
-    <p class="text-gray-500">No hay listas de reproducción disponibles.</p>
-  </div>
-
-  <!-- Lista de reproducción -->
-  <ul *ngIf="!loading && listas.length > 0" class="divide-y divide-gray-200">
-    <li
-      *ngFor="let lista of listas"
-      (click)="verDetalle(lista.nombre)"
-      class="cursor-pointer hover:bg-gray-50"
+    <!-- Lista vacía -->
+    <div
+      *ngIf="!loading && listas.length === 0 && !errorMessage"
+      class="bg-spotify-lightgray rounded-lg p-8 text-center"
     >
-      <div class="px-4 py-4 sm:px-6 flex justify-between items-center">
-        <div>
-          <h3 class="text-lg font-medium text-indigo-600">
-            {{ lista.nombre }}
-          </h3>
-          <p class="mt-1 text-sm text-gray-500">{{ lista.descripcion }}</p>
-          <p class="mt-1 text-xs text-gray-400">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-16 w-16 mx-auto text-gray-400 mb-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+        />
+      </svg>
+      <p class="text-gray-400 mb-4">No tienes playlists creadas aún</p>
+      <a
+        routerLink="/lists/new"
+        class="inline-flex items-center px-6 py-3 rounded-full bg-spotify-green text-black font-medium hover:bg-opacity-80 transition-colors"
+      >
+        Crear mi primera playlist
+      </a>
+    </div>
+
+    <!-- Grid de playlists -->
+    <div
+      *ngIf="!loading && listas.length > 0"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      <div
+        *ngFor="let lista of listas"
+        (click)="verDetalle(lista.nombre)"
+        class="bg-spotify-lightgray p-4 rounded-lg hover:bg-spotify-mediumgray transition-colors duration-300 cursor-pointer group"
+      >
+        <div class="relative pb-4">
+          <!-- Placeholder de imagen de playlist -->
+          <div
+            class="bg-spotify-mediumgray aspect-square rounded-md shadow-md mb-4 flex items-center justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-16 w-16 text-gray-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+              />
+            </svg>
+          </div>
+
+          <!-- Botón de play que aparece al hacer hover -->
+          <button
+            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-12 right-2 p-3 rounded-full bg-spotify-green text-black shadow-lg hover:scale-105 transform transition-transform"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <h3 class="text-white font-bold mb-1 truncate">{{ lista.nombre }}</h3>
+        <p class="text-gray-400 text-sm mb-2 line-clamp-2 h-10">
+          {{ lista.descripcion }}
+        </p>
+        <div class="flex justify-between items-center">
+          <p class="text-xs text-gray-400">
             {{ lista.canciones.length || 0 }} canciones
           </p>
-        </div>
-        <div class="flex space-x-3">
           <button
             (click)="eliminarLista(lista.nombre, $event)"
-            class="text-red-600 hover:text-red-900"
+            class="text-gray-400 hover:text-white p-1 rounded-full hover:bg-spotify-mediumgray"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -71,6 +161,6 @@
           </button>
         </div>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>
