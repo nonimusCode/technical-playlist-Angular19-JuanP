@@ -6,16 +6,15 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 
 export function authInterceptor(req: any, next: any) {
-  const token = localStorage.getItem('token');
+  // Credenciales Basic Auth (usuario: admin, contraseña: admin)
+  const credentials = btoa('admin:admin');
 
-  if (token) {
-    const authReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`),
-    });
-    return next(authReq);
-  }
+  // Clonar la solicitud y añadir el header de autorización
+  const authReq = req.clone({
+    headers: req.headers.set('Authorization', `Basic ${credentials}`),
+  });
 
-  return next(req);
+  return next(authReq);
 }
 
 export const appConfig: ApplicationConfig = {

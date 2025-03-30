@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ListaReproduccionService } from '../../../core/services/lista-reproduccion.service';
 import { ListaReproduccion } from '../../../core/models/lista-reproduccion.model';
 
 @Component({
   selector: 'app-lista-reproduccion-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './lista-reproduccion-list.component.html',
   styleUrl: './lista-reproduccion-list.component.css',
 })

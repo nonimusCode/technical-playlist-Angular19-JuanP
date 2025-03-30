@@ -6,25 +6,24 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor() {}
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const token = this.authService.getToken();
+    // Credenciales Basic Auth (usuario: admin, contraseña: admin)
+    const credentials = btoa('admin:admin');
 
-    if (token) {
-      const authReq = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${token}`),
-      });
-      return next.handle(authReq);
-    }
+    // Clonar la solicitud y añadir el header de autorización
+    const authReq = request.clone({
+      headers: request.headers.set('Authorization', `Basic ${credentials}`),
+    });
 
-    return next.handle(request);
+    // Pasar la solicitud modificada al siguiente manejador
+    return next.handle(authReq);
   }
 }

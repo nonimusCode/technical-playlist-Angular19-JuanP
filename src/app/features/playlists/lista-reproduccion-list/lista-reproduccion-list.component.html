@@ -4,7 +4,7 @@
       Listas de Reproducción
     </h2>
     <a
-      href="/lists/new"
+      routerLink="/lists/new"
       class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
       Nueva Lista
@@ -46,7 +46,7 @@
           </h3>
           <p class="mt-1 text-sm text-gray-500">{{ lista.descripcion }}</p>
           <p class="mt-1 text-xs text-gray-400">
-            {{ lista.canciones?.length || 0 }} canciones
+            {{ lista.canciones.length || 0 }} canciones
           </p>
         </div>
         <div class="flex space-x-3">

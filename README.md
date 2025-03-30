@@ -1,59 +1,96 @@
-# NombreDelProyecto
+# Playlist App - Aplicación Angular para Gestión de Listas de Reproducción
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.5.
+Esta aplicación es una prueba técnica que implementa un frontend en Angular para una API REST de gestión de listas de reproducción musical.
 
-## Development server
+## Características
 
-To start a local development server, run:
+- **Autenticación**: Sistema de login/logout con almacenamiento de tokens JWT
+- **Gestión de Listas**: Crear, ver, editar y eliminar listas de reproducción
+- **Gestión de Canciones**: Añadir y eliminar canciones de las listas
+- **Interfaz Responsiva**: Diseño moderno con Tailwind CSS
 
-```bash
-ng serve
+## Tecnologías Utilizadas
+
+- Angular 19
+- Tailwind CSS (via CDN)
+- Angular Material
+- RxJS para programación reactiva
+- Angular Router para navegación
+
+## Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── core/                # Servicios, modelos e interceptores compartidos
+│   │   ├── guards/          # Guardias de ruta para autenticación
+│   │   ├── interceptors/    # Interceptores HTTP
+│   │   ├── models/          # Interfaces de datos
+│   │   └── services/        # Servicios compartidos
+│   ├── features/            # Componentes organizados por funcionalidad
+│   │   ├── auth/            # Componentes de autenticación
+│   │   └── playlists/       # Componentes de listas de reproducción
+│   └── shared/              # Componentes compartidos en toda la aplicación
+│       └── components/      # Elementos UI reutilizables
+├── environments/            # Configuración de entornos
+└── assets/                  # Recursos estáticos
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Instalación
 
-## Code scaffolding
+1. Clona el repositorio:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+   ```bash
+   git clone https://github.com/tu-usuario/playlist-app.git
+   cd playlist-app
+   ```
 
-```bash
-ng generate component component-name
-```
+2. Instala las dependencias:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+   ```bash
+   npm install
+   ```
 
-```bash
-ng generate --help
-```
+3. Ejecuta la aplicación:
 
-## Building
+   ```bash
+   ng serve
+   ```
 
-To build the project run:
+4. Navega a `http://localhost:4200/` en tu navegador.
 
-```bash
-ng build
-```
+## Uso
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Credenciales de Prueba
 
-## Running unit tests
+- Usuario: `admin`
+- Contraseña: `admin`
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Funcionalidades
 
-```bash
-ng test
-```
+1. **Iniciar Sesión**: Accede con tus credenciales desde la página de login
+2. **Ver Listas**: La página principal muestra todas las listas disponibles
+3. **Crear Lista**: Usa el botón "Nueva Lista" para crear una lista de reproducción
+4. **Detalles de Lista**: Haz clic en cualquier lista para ver sus detalles
+5. **Editar Lista**: Desde la vista de detalles, haz clic en "Editar"
+6. **Eliminar Lista**: Usa el botón de eliminación junto a cada lista
 
-## Running end-to-end tests
+## Conexión con Backend
 
-For end-to-end (e2e) testing, run:
+La aplicación está configurada para conectarse a un backend REST en `http://localhost:8080`. Puedes cambiar esta configuración en `environments/environment.ts`.
 
-```bash
-ng e2e
-```
+El backend debe implementar los siguientes endpoints:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- `POST /auth/login`: Autenticación con username/password
+- `GET /lists`: Obtener todas las listas
+- `GET /lists/{listName}`: Obtener detalles de una lista
+- `POST /lists`: Crear una nueva lista
+- `DELETE /lists/{listName}`: Eliminar una lista
 
-## Additional Resources
+## Desarrollado por
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Tu Nombre
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT.
